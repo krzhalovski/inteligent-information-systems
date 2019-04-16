@@ -4,6 +4,7 @@ import pandas as pd
 import os
 import tensorflow as tf
 from keras.models import Sequential
+from keras.models import load_model
 from keras.layers import Dense
 from keras.layers import Dropout
 from keras.utils import to_categorical
@@ -112,6 +113,7 @@ def train_model(model, train_in, train_out,
 
 
 def test_model(model, test_in, test_out, type, file=''):
+
     model.load_weights(file)
     score = model.evaluate(test_in, test_out, batch_size=64, verbose=1)
     print(score)
@@ -131,7 +133,7 @@ def main():
     args = parser.parse_args()
     #args.file, args.action, args.type
 
-    df = pd.read_csv('winequality-white.csv', sep=';', header=0)
+    df = pd.read_csv('data\winequality-white.csv', sep=';', header=0)
     df.iloc[:, 0:11] = (df.iloc[:, 0:11] - df.min()) / (df.max() - df.min())
 
     # Transforming target values according to problem
